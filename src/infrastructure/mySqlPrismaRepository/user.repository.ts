@@ -7,11 +7,10 @@ import {injectable} from "tsyringe";
 class UserRepository extends UserRepositoryPort {
     model = new PrismaClient().users;
 
-    async getUserByEmailPassword(email: string, passsword: string) {
+    async getUserByEmail(email: string) {
         const userFromDb = await this.model.findUniqueOrThrow({
             where: {
-                email: email,
-                password: passsword
+                email: email
             },
             select: {
                 email: true,

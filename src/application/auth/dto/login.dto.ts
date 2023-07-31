@@ -13,3 +13,4 @@ class LoginDTO implements ILoginDTO {
     }
 }
 export default LoginDTO;
+
