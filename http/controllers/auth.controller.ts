@@ -1,12 +1,11 @@
 import {inject} from "tsyringe";
 import AuthService from "../../src/application/auth/auth.service";
 import LoginDTO from "../../src/application/auth/dto/login.dto";
-import container from "../../src/infrastructure/mySqlPrismaRepository/dependancyInjection/containers";
+import container from "../../src/infrastructure/dependancyInjection/containers";
 const authService = container.resolve(AuthService);
 
 class AuthController {
     static async login(request: any, response: any) {
-        console.log(request.body);
         const loginDto = new LoginDTO(request.body);
         const token = await authService.login(loginDto);
 

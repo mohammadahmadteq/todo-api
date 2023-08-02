@@ -1,20 +1,21 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import {secret} from "../../config/envrionmentVariables";
-class AuthInfraService {
-    static async createPassword(password: string) {
+import AuthInfraPort from "../../../domain/ports/authInfra.port";
+class AuthInfraService extends AuthInfraPort {
+    async createPassword(password: string) {
         return await bcrypt.hash(password, 5);
     }
 
-    static async verifyPassword(password: string, hash: string) {
+    async verifyPassword(password: string, hash: string) {
         return await bcrypt.compare(password, hash);
     }
 
-    static createJwtToken(payload: any) {
+    createJwtToken(payload: any) {
         return jwt.sign(payload, `${secret}`, {expiresIn: "8h"});
     }
 
-    static veryifyJWTToken(token: string) {
+    verifyJwtToken(token: string) {
         return jwt.verify(token, `${secret}`);
     }
 }
