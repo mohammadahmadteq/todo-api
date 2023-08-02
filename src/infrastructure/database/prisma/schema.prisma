@@ -18,7 +18,7 @@ model Users {
   tasks Tasks[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  deletedAt DateTime
+  deletedAt DateTime?
 }
 
 model Tasks {
@@ -32,5 +32,5 @@ model Tasks {
   userId String @unique
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  deletedAt DateTime
+  deletedAt DateTime?
 }
