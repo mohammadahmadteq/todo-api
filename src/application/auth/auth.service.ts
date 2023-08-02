@@ -14,10 +14,13 @@ class AuthService {
     async login(loginDto: LoginDTO) {
         const {email, password} = loginDto;
         const userDetails = await this.userRepository.getUserByEmail(email);
-        const isPassword = await this.authInfra.verifyPassword(password, userDetails.password);
-        const userEntity = UserEntity.create(userDetails);
-        if (isPassword) {
-            return this.authInfra.createJwtToken({...userEntity});
+        if (userDetails) {
+            const isPassword = await this.authInfra.verifyPassword(password, userDetails.password);
+            const userEntity = UserEntity.create(userDetails);
+            if (isPassword) {
+                return this.authInfra.createJwtToken({...userEntity});
+            }
+            return undefined;
         }
         return undefined;
     }

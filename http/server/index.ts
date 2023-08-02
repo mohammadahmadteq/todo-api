@@ -2,11 +2,13 @@ import "reflect-metadata";
 import express from "express";
 import {apiPort, apiVersion} from "../../src/infrastructure/config/envrionmentVariables";
 import authRoutes from "../routes/auth.route";
+import userRoutes from "../routes/user.route";
 
 const server = express();
 server.use(express.json());
 
 server.use(`/v${apiVersion}/`, authRoutes);
+server.use(`/v${apiVersion}/user`, userRoutes);
 console.log(apiPort);
 server.listen(Number(apiPort), "0.0.0.0", () => {
     console.log("Listening");

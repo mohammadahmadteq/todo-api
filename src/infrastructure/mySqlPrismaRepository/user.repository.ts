@@ -8,7 +8,7 @@ class UserRepository extends UserRepositoryPort {
     model = new PrismaClient().users;
 
     async getUserByEmail(email: string) {
-        const userFromDb = await this.model.findUniqueOrThrow({
+        const userFromDb = await this.model.findUnique({
             where: {
                 email: email
             },
