@@ -1,0 +1,80 @@
+import {PrismaClient} from "@prisma/client";
+import TaskRepositoryPort from "../../domain/ports/taskRepository.port";
+import TaskEntity, {ITask} from "../../domain/entities/task.entity";
+
+class TaskRepository extends TaskRepositoryPort {
+    model = new PrismaClient().tasks;
+
+    async getAllTasksByUserId(userId: string) {
+        return await this.model.findMany({
+            where: {
+                userId: userId
+            },
+            select: {
+                taskId: true,
+                userId: true,
+                deadline: true,
+                description: true,
+                title: true,
+                finishedAt: true
+            }
+        });
+    }
+
+    async editTask(taskId: string, taskDetails: Omit<ITask, "userId" | "taskId">) {
+        return await this.model.update({
+            where: {
+                taskId: taskId
+            },
+            data: {
+                ...taskDetails
+            },
+            select: {
+                taskId: true,
+                userId: true,
+                deadline: true,
+                description: true,
+                title: true,
+                finishedAt: true
+            }
+        });
+    }
+
+    async deleteTask(taskId: string) {
+        return await this.model.delete({
+            where: {taskId: taskId},
+            select: {
+                taskId: true,
+                userId: true,
+                deadline: true,
+                description: true,
+                title: true,
+                finishedAt: true
+            }
+        });
+    }
+
+    async addNewTask(taskEntity: TaskEntity) {
+        return await this.model.create({
+            data: taskEntity,
+            select: {taskId: true, userId: true, deadline: true, description: true, title: true, finishedAt: true}
+        });
+    }
+
+    async getSingleTask(taskId: string) {
+        return await this.model.findUnique({
+            where: {taskId: taskId},
+            select: {
+                taskId: true,
+                userId: true,
+                deadline: true,
+                description: true,
+                title: true,
+                finishedAt: true
+            }
+        });
+    }
+}
+
+export default TaskRepository;
+
