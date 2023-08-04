@@ -3,6 +3,7 @@ package-lock.json
 pnpm-lock.yaml
 
 
+
 node_modules
 
 build
@@ -10,3 +11,5 @@ build
 migrations
 
 .env
+
+yarn.lock
