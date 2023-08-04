@@ -2,7 +2,7 @@ import AuthInfraService from "../../src/infrastructure/services/auth/auth.infra"
 
 const jwtAuthMiddleWare = (request: any, response: any, next: any) => {
     const authInfra = new AuthInfraService();
-    const jwtToken = request.get("Authorization")?.slice(6);
+    const jwtToken = request.get("Authorization")?.slice(7);
 
     console.log(jwtToken);
     try {

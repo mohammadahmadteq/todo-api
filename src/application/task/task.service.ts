@@ -16,7 +16,7 @@ class TaskService {
     ) {}
 
     async addNewTask(request: any, newTask: AddNewTaskDTO) {
-        const userDetails = this.auhtInfra.verifyJwtToken(request.get("Authorization")?.slice(6));
+        const userDetails = this.auhtInfra.verifyJwtToken(request.get("Authorization")?.slice(7));
 
         const taskEntity = TaskEntity.create({...newTask, taskId: uuidv4(), userId: userDetails.userId});
 
@@ -30,7 +30,7 @@ class TaskService {
     }
 
     async getAllTasks(request: any) {
-        const userDetails = this.auhtInfra.verifyJwtToken(request.get("Authorization")?.slice(6));
+        const userDetails = this.auhtInfra.verifyJwtToken(request.get("Authorization")?.slice(7));
 
         const tasksList = await this.taskRepository.getAllTasksByUserId(userDetails.userId);
 
@@ -45,36 +45,37 @@ class TaskService {
     }
 
     async editTask(request: any, editTask: EditTaskDTO) {
-        const userDetails = this.auhtInfra.verifyJwtToken(request.get("Authorization")?.slice(6));
-
+        const userDetails = this.auhtInfra.verifyJwtToken(request.get("Authorization")?.slice(7));
         const taskFromDb = await this.taskRepository.editTask(editTask.taskId, userDetails.userId, editTask);
-
+        const taskEntity = TaskEntity.create(taskFromDb);
         if (taskFromDb) {
-            return taskFromDb;
+            return taskEntity;
         } else {
             return undefined;
         }
     }
 
     async deleteTask(request: any, deleteTask: DeleteTaskDTO) {
-        const userDetails = this.auhtInfra.verifyJwtToken(request.get("Authorization")?.slice(6));
+        const userDetails = this.auhtInfra.verifyJwtToken(request.get("Authorization")?.slice(7));
 
         const deletedTaskFromDb = await this.taskRepository.deleteTask(deleteTask.taskId, userDetails.userId);
+        const taskEntity = TaskEntity.create(deletedTaskFromDb);
 
         if (deletedTaskFromDb) {
-            return deletedTaskFromDb;
+            return taskEntity;
         } else {
             return undefined;
         }
     }
 
     async getSingleTask(request: any, getSingleTask: GetSingleTaskDTO) {
-        const userDetails = this.auhtInfra.verifyJwtToken(request.get("Authorization")?.slice(6));
+        const userDetails = this.auhtInfra.verifyJwtToken(request.get("Authorization")?.slice(7));
 
         const taskFromDb = await this.taskRepository.getSingleTask(getSingleTask.taskId, userDetails.userId);
 
         if (taskFromDb) {
-            return taskFromDb;
+            const taskEntity = TaskEntity.create(taskFromDb);
+            return taskEntity;
         } else {
             return undefined;
         }
