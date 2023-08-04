@@ -29,7 +29,7 @@ model Tasks {
   deadline String
   finishedAt String?
   user Users @relation(fields: [userId], references: [userId])
-  userId String @unique
+  userId String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   deletedAt DateTime?

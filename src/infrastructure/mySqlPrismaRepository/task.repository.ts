@@ -21,10 +21,11 @@ class TaskRepository extends TaskRepositoryPort {
         });
     }
 
-    async editTask(taskId: string, taskDetails: Omit<ITask, "userId" | "taskId">) {
+    async editTask(taskId: string, userId: string, taskDetails: Omit<ITask, "userId" | "taskId">) {
         return await this.model.update({
             where: {
-                taskId: taskId
+                taskId: taskId,
+                userId: userId
             },
             data: {
                 ...taskDetails
@@ -40,9 +41,9 @@ class TaskRepository extends TaskRepositoryPort {
         });
     }
 
-    async deleteTask(taskId: string) {
+    async deleteTask(taskId: string, userId: string) {
         return await this.model.delete({
-            where: {taskId: taskId},
+            where: {taskId: taskId, userId: userId},
             select: {
                 taskId: true,
                 userId: true,
@@ -61,9 +62,9 @@ class TaskRepository extends TaskRepositoryPort {
         });
     }
 
-    async getSingleTask(taskId: string) {
+    async getSingleTask(taskId: string, userId: string) {
         return await this.model.findUnique({
-            where: {taskId: taskId},
+            where: {taskId: taskId, userId},
             select: {
                 taskId: true,
                 userId: true,
