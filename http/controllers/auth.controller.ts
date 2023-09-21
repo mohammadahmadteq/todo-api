@@ -32,6 +32,39 @@ class AuthController {
             });
         }
     }
+
+    static async oAuth2Login(request: any, response: any) {
+        const token = await authService.oAuth2Login();
+
+        if (token) {
+            response.status(200).json({
+                status: "success",
+                token: token
+            });
+        } else {
+            response.status(400).json({
+                status: "error",
+                message: "Not Found"
+            });
+        }
+    }
+
+    static async oAuth2Callback(request: any, response: any) {
+        const params = request.query;
+        const token = await authService.oAuth2Callback(params.code);
+
+        if (token) {
+            response.status(200).json({
+                status: "success",
+                token: token
+            });
+        } else {
+            response.status(400).json({
+                status: "error",
+                message: "Not Found"
+            });
+        }
+    }
 }
 
 export default AuthController;
