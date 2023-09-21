@@ -20,13 +20,15 @@ class UserService {
 
         const userId = uuidv4();
         const hashPassword = await this.authInfra.createPassword(newUserDto.password);
-        const userEntity = UserEntity.create({...newUserDto, userId, password: hashPassword});
+        const userEntity = UserEntity.create({...newUserDto, userId, password: hashPassword, isPassword: true});
         const createdUser = await this.userRepository.createNewUser(userEntity);
 
         if (createdUser) {
-            return {
-                status: "success"
-            };
+            return hashPassword
+                ? {
+                      status: "success"
+                  }
+                : createdUser;
         }
         return undefined;
     }

@@ -15,7 +15,8 @@ class UserRepository extends UserRepositoryPort {
             select: {
                 email: true,
                 password: true,
-                userId: true
+                userId: true,
+                isPassword: true
             }
         });
 

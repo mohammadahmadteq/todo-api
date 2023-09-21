@@ -14,11 +14,12 @@ model Users {
   id    Int     @id @default(autoincrement())
   userId String @unique
   email String  @unique
-  password String
+  password String?
   tasks Tasks[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   deletedAt DateTime?
+  isPassword Boolean @default(true)
 }
 
 model Tasks {
